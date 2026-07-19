@@ -1,0 +1,41 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% translate "Home" %}</a>
+  &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+  &rsaquo; <a href="{% url 'admin:reservation_event_changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+  &rsaquo; <a href="{% url 'admin:reservation_event_change' event.pk %}">{{ event }}</a>
+  &rsaquo; {% translate "Update capacity" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<p>
+  Current capacity of <strong>{{ event.title }}</strong>:
+  <strong>{{ event.capacity }}</strong>
+</p>
+
+<form method="post">
+  {% csrf_token %}
+  <fieldset class="module aligned">
+    {% for field in form %}
+      <div class="form-row{% if field.errors %} errors{% endif %}">
+        {{ field.errors }}
+        <div>
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <div class="help">{{ field.help_text }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </fieldset>
+  <div class="submit-row">
+    <input type="submit" class="default" value="{% translate 'Apply change' %}">
+    <a class="closelink" href="{% url 'admin:reservation_event_change' event.pk %}">{% translate "Cancel" %}</a>
+  </div>
+</form>
+{% endblock %}

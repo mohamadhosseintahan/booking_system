@@ -1,0 +1,40 @@
+[project]
+name = "booking-system"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.2.16",
+    "celery>=5.4.0",
+    "redis>=5.2.0",
+    "psycopg[binary,pool]>=3.2.0",
+    "gunicorn>=23.0.0",
+    "djangorestframework>=3.17.1",
+    "python-decouple>=3.8",
+    "ipython>=9.15.0",
+    "django-extensions>=4.1",
+    "django-filter>=26.1",
+    "locust>=2.45.0",
+    "gevent>=25.9.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "ruff>=0.13.0",
+    "pytest>=8.3.0",
+    "pytest-django>=4.9.0",
+    "locust>=2.32.0",
+]
+
+[tool.ruff]
+extend-exclude = ["reservation/migrations"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "booking_system.settings"
+python_files = ["test_*.py"]
+testpaths = ["reservation/tests"]
